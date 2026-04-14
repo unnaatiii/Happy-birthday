@@ -135,6 +135,7 @@ const SCREEN_BODY_CLASS = {
 
 let mainPageInitialized = false;
 let transitionTimer = null;
+let lightsSwitchInitialized = false;
 
 function isSinglePageMode() {
   return Boolean(document.getElementById("spa-app"));
@@ -572,6 +573,7 @@ async function runInteractiveCelebration() {
   const actionBtn = document.getElementById("btn-to-action");
   const cakeBtn = document.getElementById("btn-to-cake");
 
+  initLightsSwitch();
   body.classList.add("lights-active");
   await wait(CONFIG.lightsPhaseMs);
   cameraBtn.classList.remove("hidden");
@@ -601,6 +603,40 @@ async function runInteractiveCelebration() {
   }, { once: true });
 
   showCakeSection(document.getElementById("cake-content"));
+}
+
+function initLightsSwitch() {
+  if (lightsSwitchInitialized) return;
+
+  const lightsSection = document.getElementById("section-lights");
+  const switchBtn = document.getElementById("lights-switch-btn");
+  if (!lightsSection || !switchBtn) return;
+
+  const bulbs = Array.from(lightsSection.querySelectorAll(".ceiling-light .bulb"));
+
+  const setLights = (turnOn) => {
+    lightsSection.classList.toggle("lights-on", turnOn);
+    switchBtn.textContent = turnOn ? "Turn Off Lights" : "Turn On Lights";
+
+    if (!turnOn) {
+      bulbs.forEach((bulb) => bulb.classList.remove("is-on"));
+      return;
+    }
+
+    // Cinematic optional touch: turn on bulbs one-by-one with tiny delay.
+    bulbs.forEach((bulb, index) => {
+      bulb.classList.remove("is-on");
+      setTimeout(() => bulb.classList.add("is-on"), index * 75);
+    });
+  };
+
+  setLights(false);
+  switchBtn.addEventListener("click", () => {
+    const isOn = lightsSection.classList.contains("lights-on");
+    setLights(!isOn);
+  });
+
+  lightsSwitchInitialized = true;
 }
 
 async function runCameraSection() {
