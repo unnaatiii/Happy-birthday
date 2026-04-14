@@ -340,6 +340,128 @@ body {
   z-index: 2;
 }
 
+.section-lights {
+  overflow: hidden;
+}
+
+.ceiling-lights {
+  position: absolute;
+  top: 0;
+  left: 2%;
+  width: 96%;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 6;
+}
+
+.ceiling-light {
+  width: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: top center;
+  animation: bulbSwing 3.8s ease-in-out infinite;
+}
+
+.ceiling-light:nth-child(even) {
+  animation-duration: 4.4s;
+}
+
+.ceiling-light .wire {
+  width: 2px;
+  height: 84px;
+  background: linear-gradient(180deg, rgba(200, 200, 200, 0.85), rgba(130, 130, 130, 0.7));
+}
+
+.ceiling-light:nth-child(1) .wire { height: 76px; }
+.ceiling-light:nth-child(2) .wire { height: 90px; }
+.ceiling-light:nth-child(3) .wire { height: 82px; }
+.ceiling-light:nth-child(4) .wire { height: 96px; }
+.ceiling-light:nth-child(5) .wire { height: 78px; }
+.ceiling-light:nth-child(6) .wire { height: 92px; }
+.ceiling-light:nth-child(7) .wire { height: 86px; }
+.ceiling-light:nth-child(8) .wire { height: 100px; }
+.ceiling-light:nth-child(9) .wire { height: 80px; }
+.ceiling-light:nth-child(10) .wire { height: 94px; }
+.ceiling-light:nth-child(11) .wire { height: 84px; }
+.ceiling-light:nth-child(12) .wire { height: 98px; }
+.ceiling-light:nth-child(13) .wire { height: 79px; }
+.ceiling-light:nth-child(14) .wire { height: 93px; }
+.ceiling-light:nth-child(15) .wire { height: 87px; }
+.ceiling-light:nth-child(16) .wire { height: 101px; }
+.ceiling-light:nth-child(17) .wire { height: 83px; }
+.ceiling-light:nth-child(18) .wire { height: 95px; }
+
+.ceiling-light .bulb {
+  position: relative;
+  display: block;
+  width: 28px;
+  height: 42px;
+  background: url("assets/images/hanging-bulb.png") center/contain no-repeat;
+  opacity: 0.45;
+  filter: grayscale(1) brightness(0.55);
+  box-shadow: 0 0 0 rgba(255, 214, 102, 0);
+  transition: filter 0.4s ease, opacity 0.4s ease, box-shadow 0.4s ease, transform 0.35s ease;
+}
+
+.ceiling-light:nth-child(3n) .bulb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #8f95a3 0%, #5f6674 60%, #464b56 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.ceiling-light:nth-child(3n) .bulb::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 6px;
+  border-radius: 2px 2px 1px 1px;
+  background: #787f8f;
+}
+
+.section-lights.lights-on .ceiling-light .bulb {
+  opacity: 1;
+  filter: grayscale(0) brightness(1.1);
+  box-shadow: 0 0 16px rgba(255, 214, 106, 0.45), 0 0 28px rgba(255, 190, 71, 0.38);
+}
+
+.section-lights.lights-on .ceiling-light:nth-child(3n) .bulb {
+  background: radial-gradient(circle at 35% 30%, #fff8d6 0%, #ffe07c 46%, #ffca56 100%);
+  box-shadow: 0 0 14px rgba(255, 216, 120, 0.65), 0 0 26px rgba(255, 183, 74, 0.45);
+}
+
+.section-lights.lights-on .ceiling-light .bulb.is-on {
+  transform: scale(1.1);
+}
+
+.btn-light-switch {
+  position: absolute;
+  top: 7.6rem;
+  right: 1.6rem;
+  z-index: 7;
+  background: linear-gradient(135deg, #ffd66a, #ffa940);
+  color: #231516;
+  font-weight: 800;
+  box-shadow: 0 0 18px rgba(255, 196, 84, 0.3);
+}
+
+.btn-light-switch::before {
+  content: "";
+  position: absolute;
+  top: -54px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 54px;
+  background: linear-gradient(180deg, rgba(235, 235, 235, 0.9), rgba(160, 160, 160, 0.7));
+}
+
 .section-content {
   text-align: center;
   max-width: 760px;
@@ -1140,6 +1262,12 @@ body {
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-12px); }
+}
+
+@keyframes bulbSwing {
+  0% { transform: rotate(-2.5deg); }
+  50% { transform: rotate(2.5deg); }
+  100% { transform: rotate(-2.5deg); }
 }
 
 @keyframes shake {
