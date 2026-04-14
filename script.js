@@ -646,8 +646,11 @@ async function runCameraSection() {
   cameraContainer.innerHTML = `
     <h1 class="phase-text phase-camera">CAMERA</h1>
     <div class="camera-content fade-in">
+      <div class="camera-spotlight-overlay" aria-hidden="true"></div>
       <p class="boss-message">${CONFIG.bossMessage}</p>
-      <img src="${CONFIG.assets.bossImage}" alt="Boss" class="boss-image" />
+      <div class="boss-image-wrapper">
+        <img src="${CONFIG.assets.bossImage}" alt="Boss" class="boss-image" />
+      </div>
     </div>
   `;
   await wait(6000);

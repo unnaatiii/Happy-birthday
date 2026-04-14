@@ -579,8 +579,12 @@ body {
 
 /* --- Camera Phase: Boss Message --- */
 .camera-content {
+  position: relative;
   text-align: center;
   max-width: 600px;
+  margin: 0 auto;
+  isolation: isolate;
+  overflow: visible;
 }
 
 .boss-message {
@@ -589,6 +593,43 @@ body {
   margin-bottom: 2rem;
   line-height: 1.8;
   animation: fadeIn 1s ease forwards;
+  position: relative;
+  z-index: 3;
+}
+
+.camera-spotlight-overlay {
+  position: absolute;
+  left: 50%;
+  top: -220px;
+  width: min(86vw, 620px);
+  height: min(88vh, 760px);
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.88;
+  mix-blend-mode: screen;
+  filter: blur(3px);
+  background:
+    radial-gradient(ellipse 52% 60% at 50% 5%,
+      rgba(255, 247, 210, 0.68) 0%,
+      rgba(255, 235, 175, 0.46) 20%,
+      rgba(255, 208, 110, 0.18) 45%,
+      rgba(255, 180, 88, 0) 72%),
+    conic-gradient(from 178deg at 50% 0%,
+      rgba(255, 244, 205, 0) 0deg 136deg,
+      rgba(255, 243, 197, 0.44) 160deg 200deg,
+      rgba(255, 244, 205, 0) 224deg 360deg);
+  animation: spotlightDrift 16s ease-in-out infinite alternate, spotlightFlicker 6.4s ease-in-out infinite;
+}
+
+.boss-image-wrapper {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  transform: scale(1.03);
+  animation: bossSpotlightPulse 4.8s ease-in-out 1.1s infinite;
 }
 
 .boss-image {
@@ -597,10 +638,12 @@ body {
   border-radius: 50%;
   object-fit: cover;
   border: 4px solid var(--accent-color);
-  box-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
+  box-shadow:
+    0 0 42px rgba(255, 222, 143, 0.52),
+    0 0 82px rgba(255, 236, 184, 0.28);
   opacity: 0;
   transform-origin: top center;
-  animation: bossReveal 1.5s ease forwards, bossSwing 3s ease-in-out 2s infinite;
+  animation: bossReveal 1.5s ease forwards, bossSwing 3s ease-in-out 2s infinite, bossSpotlightGlow 4.8s ease-in-out 1.1s infinite;
 }
 
 /* --- Balloons --- */
@@ -1312,6 +1355,55 @@ body {
   }
 }
 
+@keyframes spotlightDrift {
+  0% {
+    transform: translateX(-50%) rotate(-1.8deg) scale(0.98, 1);
+  }
+  50% {
+    transform: translateX(-50%) rotate(0.9deg) scale(1.01, 1.02);
+  }
+  100% {
+    transform: translateX(-50%) rotate(-0.7deg) scale(1, 0.99);
+  }
+}
+
+@keyframes spotlightFlicker {
+  0%, 100% {
+    opacity: 0.84;
+    filter: blur(3px) brightness(0.94);
+  }
+  35% {
+    opacity: 0.92;
+    filter: blur(2px) brightness(1.03);
+  }
+  70% {
+    opacity: 0.87;
+    filter: blur(3.4px) brightness(0.98);
+  }
+}
+
+@keyframes bossSpotlightGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 40px rgba(255, 222, 143, 0.5),
+      0 0 78px rgba(255, 236, 184, 0.24);
+  }
+  50% {
+    box-shadow:
+      0 0 52px rgba(255, 229, 160, 0.64),
+      0 0 96px rgba(255, 243, 200, 0.34);
+  }
+}
+
+@keyframes bossSpotlightPulse {
+  0%, 100% {
+    transform: scale(1.03);
+  }
+  50% {
+    transform: scale(1.045);
+  }
+}
+
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -1482,6 +1574,13 @@ body {
   .boss-image {
     width: 170px;
     height: 170px;
+  }
+
+  .camera-spotlight-overlay {
+    top: -170px;
+    width: min(96vw, 520px);
+    height: min(78vh, 600px);
+    opacity: 0.78;
   }
 
   .cake-image {
