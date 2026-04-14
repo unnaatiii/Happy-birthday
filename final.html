@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday! 🎂</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="final-bg">
+
+  <!-- Floating Particles Background -->
+  <div class="particles"></div>
+
+  <!-- Final Message -->
+  <div class="page-container">
+    <div class="final-content fade-in">
+      <h1 class="final-title">🎂 Happy Birthday! 🎂</h1>
+      <p id="final-message" class="final-subtitle"></p>
+    </div>
+  </div>
+
+  <!-- Surprise Popup Modal -->
+  <div id="surprise-modal" class="modal-overlay">
+    <div class="modal-card">
+      <span class="modal-trophy">🏆</span>
+      <h2 class="modal-title">🎉 Bonus Unlocked!</h2>
+      <p class="modal-message">Best Boss Award 🏆</p>
+      <button class="btn btn-award" onclick="closeSurprisePopup()">Accept Award 😎</button>
+    </div>
+  </div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", initFinalPage);
+  </script>
+</body>
+</html>

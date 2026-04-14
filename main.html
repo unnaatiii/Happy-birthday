@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday! 🎉</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="celebration-bg">
+
+  <!-- Floating Particles Background -->
+  <div class="particles"></div>
+
+  <main id="main-experience" class="experience-wrapper">
+    <section id="section-lights" class="experience-section section-lights">
+      <div class="section-content">
+        <h1 class="phase-text phase-lights">LIGHTS</h1>
+        <p class="section-note">The celebration starts here ✨</p>
+      </div>
+      <button id="btn-to-camera" class="btn btn-side hidden">Next: Camera ⮕</button>
+    </section>
+
+    <section id="section-camera" class="experience-section section-camera">
+      <div id="camera-content" class="section-content">
+        <h1 class="phase-text phase-camera">CAMERA</h1>
+        <p class="section-note">Scroll + click to continue your story.</p>
+      </div>
+      <button id="btn-to-action" class="btn btn-side hidden">Next: Action ⮕</button>
+    </section>
+
+    <section id="section-action" class="experience-section section-action">
+      <div id="action-content" class="section-content">
+        <h1 class="phase-text phase-action">ACTION!</h1>
+        <p class="section-note">Party mode on 🎉</p>
+      </div>
+      <button id="btn-to-cake" class="btn btn-side hidden">Next: Cake ⮕</button>
+    </section>
+
+    <section id="section-cake" class="experience-section section-cake">
+      <div id="cake-content" class="section-content"></div>
+    </section>
+  </main>
+
+  <!-- Cinematic Overlay (black screen interruption) -->
+  <div id="cinematic-overlay" class="cinematic-overlay">
+    <p id="cinematic-type" class="typewriter-text"></p>
+    <p id="cinematic-sub" class="cinematic-subtext"></p>
+  </div>
+
+  <!-- Confetti Canvas (injected by JS if not present) -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!--
+    ASSET: Background music
+    Place your music file at: assets/sounds/birthday-music.mp3
+    It will auto-play when this page loads.
+
+    ASSET: Click sound
+    Place your click sound at: assets/sounds/click.mp3
+    It plays on every button click across the site.
+
+    ASSET: Boss image
+    Place the boss photo at: assets/images/boss.png
+    Shown during the "Camera" phase.
+
+    ASSET: Cake images
+    Place unlit cake at: assets/images/cake-unlit.png
+    Place lit cake at:   assets/images/cake-lit.png
+  -->
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", initMainPage);
+  </script>
+</body>
+</html>

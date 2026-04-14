@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vroom Vroom! 🚗</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="transition-bg">
+
+  <!-- Animated Text -->
+  <h1 class="transition-text">Let's Go! 🎉</h1>
+
+  <!-- Road Surface -->
+  <div class="road"></div>
+
+  <!-- Car + Cat Scene (animates left → right) -->
+  <div class="car-scene">
+    <!-- ASSET: Place your car image at assets/images/car.png -->
+    <img id="car-img" src="assets/images/car.png" alt="Car" class="car move-right-to-left" />
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", initTransitionPage);
+  </script>
+</body>
+</html>

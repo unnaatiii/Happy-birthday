@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Questions 🤔</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="questions-bg">
+
+  <!-- Floating Particles Background -->
+  <div class="particles"></div>
+
+  <!-- Question Card (dynamically updated by JS) -->
+  <div class="page-container">
+    <div id="question-card" class="question-card">
+      <!-- Questions are injected by showQuestion() in script.js -->
+    </div>
+  </div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", initQuestionsPage);
+  </script>
+</body>
+</html>

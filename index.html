@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Are you...? 🤔</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="landing-bg">
+
+  <!-- Floating Particles Background -->
+  <div class="particles"></div>
+
+  <!-- Main Landing Card -->
+  <div class="page-container">
+    <div class="landing-card" id="landing-card">
+
+      <!-- Detective Cat Image -->
+      <!-- ASSET: Place your detective cat image at assets/images/detective-cat.png -->
+      <img id="detective-cat-img" src="assets/images/detective-cat.png" alt="Detective Cat" class="detective-cat" />
+
+      <h1 class="landing-title">
+        Are you the <span id="person-name" class="landing-name"></span>?
+      </h1>
+      <p class="landing-subtitle">Answer wisely... 🕵️</p>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="handleYes()">Who else 😎</button>
+        <button class="btn btn-secondary" onclick="handleNo()">Nope 🙄</button>
+      </div>
+    </div>
+
+    <!-- Rejection Screen (hidden by default) -->
+    <div id="rejection" class="rejection-screen hidden">
+      
+      <!-- ASSET: Place your attitude cat GIF at assets/images/attitude_cat.gif -->
+      <img src="assets/images/attitude_cat.gif" alt="Attitude Cat" class="attitude-cat" />
+      <p class="rejection-text">Then give it to him, FAST!!! 😤</p>
+      <button class="btn btn-primary" onclick="handleRejection()">Try Again</button>
+      <a href=""></a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Initialize landing page when DOM is ready
+    document.addEventListener("DOMContentLoaded", initLandingPage);
+  </script>
+</body>
+</html>

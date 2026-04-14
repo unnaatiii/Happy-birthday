@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Wishes ✨</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="wishes-bg">
+
+  <!-- Floating Particles Background -->
+  <div class="particles"></div>
+
+  <!-- Wishes Content -->
+  <div class="page-container">
+    <div class="wishes-card fade-in">
+      <h1 class="wishes-title">Happy Birthday</h1>
+      <p class="wishes-subtitle">Wishing you joy, laughter, and endless success ahead!</p>
+      <ul class="wishes-list">
+        <li>May your year be filled with happiness and good health.</li>
+        <li>May every goal you chase turn into a beautiful achievement.</li>
+        <li>May your days stay bright, peaceful, and full of celebrations.</li>
+      </ul>
+      <button id="btn-wishes-continue" class="btn btn-primary">Question Round ➜</button>
+    </div>
+  </div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", initWishesPage);
+  </script>
+</body>
+</html>
