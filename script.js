@@ -11,10 +11,10 @@ const CONFIG = {
   name: "Boss",
 
   // Message shown during "Camera" phase on main.html
-  bossMessage: "The one who makes work feel like a party... most of the time 😄<br><span style='font-size: 1.6em; font-weight: bold;'>Happy Birthday to the coolest boss ever! 🎉</span>",
+  bossMessage: "The one who makes work feel like a challenge, to oneself... most of the time 😄<br><span style='font-size: 1.6em; font-weight: bold;'>Happy Birthday to the coolest boss ever! 🎉</span>",
 
   // Final page message
-  finalMessage: "Hope you have a wonderful year ahead! 🎉",
+  finalMessage: "<span style='font-size: 2.5em; font-weight: 800; letter-spacing: 1px;'>Joel Sir</span><br><span style='font-size: 1.5em; font-weight: 600;'>Hope you have a wonderful year ahead 🎉</span>",
 
   // Cinematic typing lines
   cinematicLine1: "Arey... it's just a 5 min task 😌",
@@ -122,6 +122,92 @@ const SoundManager = {
     click.play().catch(() => {});
   },
 };
+
+const SCREEN_BODY_CLASS = {
+  "screen-landing": "landing-bg",
+  "screen-transition": "transition-bg",
+  "screen-main": "celebration-bg",
+  "screen-wishes": "wishes-bg",
+  "screen-questions": "questions-bg",
+  "screen-gift": "gift-bg",
+  "screen-final": "final-bg",
+};
+
+let mainPageInitialized = false;
+let transitionTimer = null;
+
+function isSinglePageMode() {
+  return Boolean(document.getElementById("spa-app"));
+}
+
+function setBodyThemeForScreen(screenId) {
+  const themeClasses = Object.values(SCREEN_BODY_CLASS);
+  document.body.classList.remove(...themeClasses, "lights-active");
+  if (SCREEN_BODY_CLASS[screenId]) {
+    document.body.classList.add(SCREEN_BODY_CLASS[screenId]);
+  }
+}
+
+function showScreen(screenId) {
+  if (!isSinglePageMode()) return;
+
+  document.querySelectorAll(".app-screen").forEach((screen) => {
+    screen.classList.toggle("active", screen.id === screenId);
+  });
+
+  setBodyThemeForScreen(screenId);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function goToScreen(screenId) {
+  if (!isSinglePageMode()) return;
+
+  if (screenId !== "screen-main") {
+    clearCelebrationDecor();
+  }
+
+  showScreen(screenId);
+  if (screenId === "screen-transition") {
+    runTransitionSequence();
+  } else if (transitionTimer) {
+    clearTimeout(transitionTimer);
+    transitionTimer = null;
+  }
+
+  if (screenId === "screen-main" && !mainPageInitialized) {
+    mainPageInitialized = true;
+    initMainPage();
+  } else if (screenId === "screen-wishes") {
+    initWishesPage();
+  } else if (screenId === "screen-questions") {
+    initQuestionsPage();
+  } else if (screenId === "screen-gift") {
+    initGiftPage();
+  } else if (screenId === "screen-final") {
+    initFinalPage();
+  }
+}
+
+function runTransitionSequence() {
+  if (transitionTimer) clearTimeout(transitionTimer);
+  transitionTimer = setTimeout(() => {
+    goToScreen("screen-main");
+  }, 4000);
+}
+
+function initSinglePageApp() {
+  const particlesEl = document.querySelector(".particles");
+  if (particlesEl && !particlesEl.childElementCount) {
+    createParticles(particlesEl, 70);
+  }
+  initLandingPage();
+  const requestedScreen = window.location.hash.replace("#", "");
+  if (requestedScreen && SCREEN_BODY_CLASS[requestedScreen]) {
+    goToScreen(requestedScreen);
+    return;
+  }
+  showScreen("screen-landing");
+}
 
 /* -----------------------------------------------
    ATTACH CLICK SOUND TO ALL BUTTONS
@@ -291,19 +377,6 @@ function showBirthdayBanner() {
   banner.id = "birthday-banner";
   banner.className = "birthday-banner";
 
-  if (CONFIG.useBannerImage) {
-    banner.classList.add("birthday-banner-image-mode");
-    banner.innerHTML = `
-      <img
-        src="${CONFIG.assets.bannerImage}"
-        alt="Happy Birthday Banner"
-        class="birthday-banner-image"
-      />
-    `;
-    document.body.appendChild(banner);
-    return;
-  }
-
   const createPennants = (text, className) =>
     text
       .split("")
@@ -314,20 +387,41 @@ function showBirthdayBanner() {
       })
       .join("");
 
-  banner.innerHTML = `
-    <div class="banner-row banner-row-top">
-      <span class="banner-knot banner-knot-left"></span>
-      <div class="banner-flags">${createPennants("HAPPY", "banner-row-top")}</div>
-      <span class="banner-knot banner-knot-right"></span>
-    </div>
-    <div class="banner-row banner-row-bottom">
-      <span class="banner-knot banner-knot-left"></span>
-      <div class="banner-flags">${createPennants("BIRTHDAY", "banner-row-bottom")}</div>
-      <span class="banner-knot banner-knot-right"></span>
-    </div>
-  `;
+  const applyPennantBanner = () => {
+    banner.classList.remove("birthday-banner-image-mode");
+    banner.innerHTML = `
+      <div class="banner-row banner-row-top">
+        <span class="banner-knot banner-knot-left"></span>
+        <div class="banner-flags">${createPennants("HAPPY", "banner-row-top")}</div>
+        <span class="banner-knot banner-knot-right"></span>
+      </div>
+      <div class="banner-row banner-row-bottom">
+        <span class="banner-knot banner-knot-left"></span>
+        <div class="banner-flags">${createPennants("BIRTHDAY", "banner-row-bottom")}</div>
+        <span class="banner-knot banner-knot-right"></span>
+      </div>
+    `;
+  };
 
+  // Render pennant banner immediately so ACTION page always shows it instantly.
+  applyPennantBanner();
   document.body.appendChild(banner);
+
+  if (CONFIG.useBannerImage) {
+    banner.classList.add("birthday-banner-image-mode");
+    const bannerImage = document.createElement("img");
+    bannerImage.src = CONFIG.assets.bannerImage;
+    bannerImage.alt = "Happy Birthday Banner";
+    bannerImage.className = "birthday-banner-image";
+    bannerImage.onload = () => {
+      banner.innerHTML = "";
+      banner.appendChild(bannerImage);
+    };
+    bannerImage.onerror = () => {
+      banner.classList.remove("birthday-banner-image-mode");
+      applyPennantBanner();
+    };
+  }
 }
 
 function clearCelebrationDecor() {
@@ -389,6 +483,10 @@ function initLandingPage() {
 function handleYes() {
   document.querySelector(".landing-card").classList.add("fade-out");
   setTimeout(() => {
+    if (isSinglePageMode()) {
+      goToScreen("screen-transition");
+      return;
+    }
     window.location.href = "transition.html";
   }, 600);
 }
@@ -437,6 +535,10 @@ function initTransitionPage() {
 
   // Auto-redirect after animation completes
   setTimeout(() => {
+    if (isSinglePageMode()) {
+      goToScreen("screen-main");
+      return;
+    }
     window.location.href = "main.html";
   }, 4000);
 }
@@ -491,6 +593,10 @@ async function runInteractiveCelebration() {
 
   cakeBtn.addEventListener("click", () => {
     cakeBtn.classList.add("hidden");
+    const banner = document.getElementById("birthday-banner");
+    if (banner) {
+      banner.classList.add("birthday-banner-compact");
+    }
     cakeSection.scrollIntoView({ behavior: "smooth", block: "start" });
   }, { once: true });
 
@@ -599,8 +705,12 @@ function cutCake() {
     const btn = document.createElement("button");
     btn.id = "btn-to-wishes";
     btn.className = "btn btn-primary";
-    btn.textContent = "Scroll down for wishes ⮟";
+    btn.textContent = "Go to wishes ➜";
     btn.addEventListener("click", () => {
+      if (isSinglePageMode()) {
+        goToScreen("screen-wishes");
+        return;
+      }
       window.location.href = "wishes.html";
     });
     cakeSection.appendChild(btn);
@@ -621,9 +731,13 @@ function initWishesPage() {
   const continueBtn = document.getElementById("btn-wishes-continue");
 
   if (continueBtn) {
-    continueBtn.addEventListener("click", () => {
+    continueBtn.onclick = () => {
+      if (isSinglePageMode()) {
+        goToScreen("screen-questions");
+        return;
+      }
       window.location.href = "questions.html";
-    });
+    };
   }
   attachClickSounds();
 }
@@ -637,7 +751,7 @@ const questions = [
     text: "Was it good?",
     options: [
       { label: "Yes 😄", action: "next" },
-      { label: "No 😢", action: "next" },
+      { label: "Veryyy Veryyy good😢", action: "next" },
     ],
   },
   {
@@ -670,6 +784,7 @@ function initQuestionsPage() {
   // Attempt to resume music from main page
   SoundManager.playBgMusic();
 
+  currentQuestion = 0;
   showQuestion(currentQuestion);
 }
 
@@ -742,6 +857,10 @@ function handleAnswer(action) {
 }
 
 function goToBonusGift() {
+  if (isSinglePageMode()) {
+    goToScreen("screen-gift");
+    return;
+  }
   window.location.href = "gift.html";
 }
 
@@ -834,9 +953,13 @@ function initGiftPage() {
 
   const continueBtn = document.getElementById("btn-gift-continue");
   if (continueBtn) {
-    continueBtn.addEventListener("click", () => {
+    continueBtn.onclick = () => {
+      if (isSinglePageMode()) {
+        goToScreen("screen-final");
+        return;
+      }
       window.location.href = "final.html";
-    });
+    };
   }
 }
 
@@ -848,7 +971,7 @@ function initFinalPage() {
   if (particlesEl) createParticles(particlesEl, 40);
 
   const msgEl = document.getElementById("final-message");
-  if (msgEl) msgEl.textContent = CONFIG.finalMessage;
+  if (msgEl) msgEl.innerHTML = CONFIG.finalMessage;
 
   attachClickSounds();
 

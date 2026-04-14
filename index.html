@@ -3,48 +3,136 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Are you...? 🤔</title>
+  <title>Happy Birthday Experience 🎉</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="landing-bg">
-
-  <!-- Floating Particles Background -->
   <div class="particles"></div>
+  <canvas id="confetti-canvas"></canvas>
 
-  <!-- Main Landing Card -->
-  <div class="page-container">
-    <div class="landing-card" id="landing-card">
+  <div class="particles" id="particles"></div>
 
-      <!-- Detective Cat Image -->
-      <!-- ASSET: Place your detective cat image at assets/images/detective-cat.png -->
-      <img id="detective-cat-img" src="assets/images/detective-cat.png" alt="Detective Cat" class="detective-cat" />
+  <main id="spa-app">
+    <section id="screen-landing" class="app-screen active">
+      <div class="page-container">
+        <div class="landing-card" id="landing-card">
+          <img id="detective-cat-img" src="assets/images/detective-cat.png" alt="Detective Cat" class="detective-cat" />
+          <h1 class="landing-title">Are you the <span id="person-name" class="landing-name"></span>?</h1>
+          <p class="landing-subtitle">Answer wisely... 🕵️</p>
+          <div class="btn-group">
+            <button class="btn btn-primary" onclick="handleYes()">Who else 😎</button>
+            <button class="btn btn-secondary" onclick="handleNo()">Nope 🙄</button>
+          </div>
+        </div>
 
-      <h1 class="landing-title">
-        Are you the <span id="person-name" class="landing-name"></span>?
-      </h1>
-      <p class="landing-subtitle">Answer wisely... 🕵️</p>
-
-      <div class="btn-group">
-        <button class="btn btn-primary" onclick="handleYes()">Who else 😎</button>
-        <button class="btn btn-secondary" onclick="handleNo()">Nope 🙄</button>
+        <div id="rejection" class="rejection-screen hidden">
+          <img src="assets/images/attitude_cat.gif" alt="Attitude Cat" class="attitude-cat" />
+          <p class="rejection-text">Then give it to him, FAST!!! 😤</p>
+          <button class="btn btn-primary" onclick="handleRejection()">Try Again</button>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Rejection Screen (hidden by default) -->
-    <div id="rejection" class="rejection-screen hidden">
-      
-      <!-- ASSET: Place your attitude cat GIF at assets/images/attitude_cat.gif -->
-      <img src="assets/images/attitude_cat.gif" alt="Attitude Cat" class="attitude-cat" />
-      <p class="rejection-text">Then give it to him, FAST!!! 😤</p>
-      <button class="btn btn-primary" onclick="handleRejection()">Try Again</button>
-      <a href=""></a>
-    </div>
-  </div>
+    <section id="screen-transition" class="app-screen transition-bg">
+      <h1 class="transition-text">Let's Go! 🎉</h1>
+      <div class="road"></div>
+      <div class="car-scene">
+        <img id="car-img" src="assets/images/car.png" alt="Car" class="car move-right-to-left" />
+      </div>
+    </section>
+
+    <section id="screen-main" class="app-screen celebration-bg">
+      <main id="main-experience" class="experience-wrapper">
+        <section id="section-lights" class="experience-section section-lights">
+          <div class="section-content">
+            <h1 class="phase-text phase-lights">LIGHTS</h1>
+            <p class="section-note">The celebration starts here ✨</p>
+          </div>
+          <button id="btn-to-camera" class="btn btn-side hidden">Next: Camera ⮕</button>
+        </section>
+
+        <section id="section-camera" class="experience-section section-camera">
+          <div id="camera-content" class="section-content">
+            <h1 class="phase-text phase-camera">CAMERA</h1>
+            <p class="section-note">Scroll + click to continue your story.</p>
+          </div>
+          <button id="btn-to-action" class="btn btn-side hidden">Next: Action ⮕</button>
+        </section>
+
+        <section id="section-action" class="experience-section section-action">
+          <div id="action-content" class="section-content">
+            <h1 class="phase-text phase-action">ACTION!</h1>
+            <p class="section-note">Party mode on 🎉</p>
+          </div>
+          <button id="btn-to-cake" class="btn btn-side hidden">Next: Cake ⮕</button>
+        </section>
+
+        <section id="section-cake" class="experience-section section-cake">
+          <div id="cake-content" class="section-content"></div>
+        </section>
+      </main>
+
+      <div id="cinematic-overlay" class="cinematic-overlay">
+        <p id="cinematic-type" class="typewriter-text"></p>
+        <p id="cinematic-sub" class="cinematic-subtext"></p>
+      </div>
+    </section>
+
+    <section id="screen-wishes" class="app-screen">
+      <div class="page-container">
+        <div class="wishes-card fade-in">
+          <h1 class="wishes-title">Happy Birthday Joel Sir</h1>
+          <p class="wishes-subtitle">Wishing you joy, laughter, and endless success ahead!</p>
+          <ul class="wishes-list">
+            <li>May every goal you chase turn into a beautiful achievement.</li>
+            <li>May your year be filled with happiness and good health.</li>
+            <li>May Registerkaro and all other ventures achives a huge milestone.</li>
+            <li>May you earn more and more and more and increase expenses---on US also, hehe 🤭.</li>
+          </ul>
+          <button id="btn-wishes-continue" class="btn btn-primary">Question Round ➜</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-questions" class="app-screen">
+      <div class="page-container">
+        <div id="question-card" class="question-card"></div>
+      </div>
+    </section>
+
+    <section id="screen-gift" class="app-screen">
+      <div class="page-container">
+        <div class="gift-card fade-in">
+          <span class="gift-emoji">🏆</span>
+          <h1 class="gift-title">Best Boss Gift</h1>
+          <p class="gift-subtitle">For being supportive, inspiring, and always awesome.</p>
+          <button id="btn-gift-continue" class="btn btn-primary">Continue to final page ⮟</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-final" class="app-screen">
+      <div class="page-container">
+        <div class="final-content fade-in">
+          <h1 class="final-title">🎂 Happy Birthday! 🎂</h1>
+          <p id="final-message" class="final-subtitle"></p>
+        </div>
+      </div>
+
+      <div id="surprise-modal" class="modal-overlay">
+        <div class="modal-card">
+          <span class="modal-trophy">🏆</span>
+          <h2 class="modal-title">🎉 Bonus Unlocked!</h2>
+          <p class="modal-message">Best Boss Award 🏆</p>
+          <button class="btn btn-award" onclick="closeSurprisePopup()">Accept Award 😎</button>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <script src="script.js"></script>
   <script>
-    // Initialize landing page when DOM is ready
-    document.addEventListener("DOMContentLoaded", initLandingPage);
+    document.addEventListener("DOMContentLoaded", initSinglePageApp);
   </script>
 </body>
 </html>

@@ -42,6 +42,21 @@ body {
   isolation: isolate;
 }
 
+#spa-app {
+  position: relative;
+  min-height: 100vh;
+  z-index: 2;
+}
+
+.app-screen {
+  display: none;
+  min-height: 100vh;
+}
+
+.app-screen.active {
+  display: block;
+}
+
 /* --- Utility Classes --- */
 .hidden {
   display: none !important;
@@ -155,7 +170,7 @@ body {
   border-radius: 50px;
   font-size: 1rem;
   font-weight: 600;
-  cursor:context-menu;
+  cursor: pointer;
   transition: all var(--transition-speed) ease;
   position: relative;
   overflow: hidden;
@@ -296,8 +311,10 @@ body {
   width: 100%;
   text-align: center;
   z-index: 5;
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: clamp(2.4rem, 6.8vw, 5.4rem);
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-family: "Trebuchet MS", "Segoe UI", "Comic Sans MS", cursive;
   background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -319,6 +336,7 @@ body {
   justify-content: center;
   position: relative;
   padding: 2rem;
+  padding-top: 6rem;
   z-index: 2;
 }
 
@@ -459,8 +477,8 @@ body {
   border: 4px solid var(--accent-color);
   box-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
   opacity: 0;
-  animation: bossReveal 1.5s ease forwards;
-  animation-delay: 0.5s;
+  transform-origin: top center;
+  animation: bossReveal 1.5s ease forwards, bossSwing 3s ease-in-out 2s infinite;
 }
 
 /* --- Balloons --- */
@@ -500,7 +518,7 @@ body {
 
 .birthday-banner {
   position: fixed;
-  top: 2.5vh;
+  top: 5vh;
   left: 50%;
   width: min(720px, 82vw);
   display: flex;
@@ -508,7 +526,7 @@ body {
   gap: 1.1rem;
   align-items: center;
   pointer-events: none;
-  z-index: 16;
+  z-index: 18;
   transform: translate(-50%, -180%);
   opacity: 0;
   animation: bannerDropIn 2s cubic-bezier(0.2, 0.9, 0.24, 1.15) forwards;
@@ -517,6 +535,12 @@ body {
 
 .birthday-banner-image-mode {
   width: min(760px, 84vw);
+}
+
+.birthday-banner.birthday-banner-compact {
+  top: 2vh;
+  width: min(460px, 62vw);
+  gap: 0.5rem;
 }
 
 .birthday-banner-image {
@@ -1074,7 +1098,7 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 0;
+  z-index: 6;
   overflow: hidden;
 }
 
@@ -1084,7 +1108,7 @@ body {
   height: 4px;
   background: var(--primary-color);
   border-radius: 50%;
-  opacity: 0.3;
+  opacity: 0.2;
   animation: particleDrift 8s linear infinite;
 }
 
@@ -1145,6 +1169,18 @@ body {
   to {
     opacity: 1;
     transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes bossSwing {
+  0% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+  100% {
+    transform: rotate(-3deg);
   }
 }
 
